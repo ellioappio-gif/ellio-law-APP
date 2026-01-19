@@ -1,5 +1,5 @@
-require File.join(File.dirname(`node -e "console.log(require.resolve('expo/package.json'))"`), "scripts/autolinking.rb")
-require File.join(File.dirname(`node -e "console.log(require.resolve('react-native/package.json'))"`), "scripts/react_native_pods.rb")
+require_relative '../node_modules/expo/scripts/autolinking.rb'
+require_relative '../node_modules/react-native/scripts/react_native_pods.rb'
 
 require 'json'
 podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
