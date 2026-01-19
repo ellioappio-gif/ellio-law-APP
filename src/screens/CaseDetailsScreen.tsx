@@ -20,13 +20,23 @@ import { WitnessManager } from '../components/WitnessManager';
 import { ExpenseTracker } from '../components/ExpenseTracker';
 import { DeadlineTracker } from '../components/DeadlineTracker';
 import { SettlementCalculator } from '../components/SettlementCalculator';
+import { CourtAppearancePrep } from '../components/CourtAppearancePrep';
+import { ServiceTracker } from '../components/ServiceTracker';
+import { DiscoveryManager } from '../components/DiscoveryManager';
+import { HearingOutcomes } from '../components/HearingOutcomes';
+import { EvidenceOrganizer } from '../components/EvidenceOrganizer';
+import { MediationPrep } from '../components/MediationPrep';
+import { CaseJournal } from '../components/CaseJournal';
+import { CaseStatusDashboard } from '../components/CaseStatusDashboard';
+import { AttorneyHandoff } from '../components/AttorneyHandoff';
+import { CourtroomAccess } from '../components/CourtroomAccess';
 
 interface CaseDetailsScreenProps {
   route: any;
   navigation: any;
 }
 
-type TabType = 'documents' | 'timeline' | 'voices' | 'witnesses' | 'expenses' | 'deadlines' | 'calculator';
+type TabType = 'documents' | 'timeline' | 'voices' | 'witnesses' | 'expenses' | 'deadlines' | 'calculator' | 'courtprep' | 'service' | 'discovery' | 'hearings' | 'evidence' | 'mediation' | 'journal' | 'dashboard' | 'handoff' | 'courtroom';
 
 export const CaseDetailsScreen: React.FC<CaseDetailsScreenProps> = ({ route, navigation }) => {
   const { caseId } = route.params;
@@ -342,6 +352,26 @@ export const CaseDetailsScreen: React.FC<CaseDetailsScreenProps> = ({ route, nav
         );
       case 'calculator':
         return <SettlementCalculator onCalculate={handleCalculation} />;
+      case 'courtprep':
+        return <CourtAppearancePrep caseId={caseId} />;
+      case 'service':
+        return <ServiceTracker caseId={caseId} />;
+      case 'discovery':
+        return <DiscoveryManager caseId={caseId} />;
+      case 'hearings':
+        return <HearingOutcomes caseId={caseId} />;
+      case 'evidence':
+        return <EvidenceOrganizer caseId={caseId} />;
+      case 'mediation':
+        return <MediationPrep caseId={caseId} />;
+      case 'journal':
+        return <CaseJournal caseId={caseId} />;
+      case 'dashboard':
+        return <CaseStatusDashboard caseId={caseId} />;
+      case 'handoff':
+        return <AttorneyHandoff caseId={caseId} />;
+      case 'courtroom':
+        return <CourtroomAccess />;
       case 'documents':
       default:
         return (
@@ -451,6 +481,96 @@ export const CaseDetailsScreen: React.FC<CaseDetailsScreenProps> = ({ route, nav
         >
           <Text style={[styles.tabText, activeTab === 'calculator' && styles.activeTabText]}>
             Calculator
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'courtprep' && styles.activeTab]}
+          onPress={() => setActiveTab('courtprep')}
+        >
+          <Text style={[styles.tabText, activeTab === 'courtprep' && styles.activeTabText]}>
+            Court Prep
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'service' && styles.activeTab]}
+          onPress={() => setActiveTab('service')}
+        >
+          <Text style={[styles.tabText, activeTab === 'service' && styles.activeTabText]}>
+            Service
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'discovery' && styles.activeTab]}
+          onPress={() => setActiveTab('discovery')}
+        >
+          <Text style={[styles.tabText, activeTab === 'discovery' && styles.activeTabText]}>
+            Discovery
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'hearings' && styles.activeTab]}
+          onPress={() => setActiveTab('hearings')}
+        >
+          <Text style={[styles.tabText, activeTab === 'hearings' && styles.activeTabText]}>
+            Hearings
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'evidence' && styles.activeTab]}
+          onPress={() => setActiveTab('evidence')}
+        >
+          <Text style={[styles.tabText, activeTab === 'evidence' && styles.activeTabText]}>
+            Evidence
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'mediation' && styles.activeTab]}
+          onPress={() => setActiveTab('mediation')}
+        >
+          <Text style={[styles.tabText, activeTab === 'mediation' && styles.activeTabText]}>
+            Mediation
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'journal' && styles.activeTab]}
+          onPress={() => setActiveTab('journal')}
+        >
+          <Text style={[styles.tabText, activeTab === 'journal' && styles.activeTabText]}>
+            Journal
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'dashboard' && styles.activeTab]}
+          onPress={() => setActiveTab('dashboard')}
+        >
+          <Text style={[styles.tabText, activeTab === 'dashboard' && styles.activeTabText]}>
+            Dashboard
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'handoff' && styles.activeTab]}
+          onPress={() => setActiveTab('handoff')}
+        >
+          <Text style={[styles.tabText, activeTab === 'handoff' && styles.activeTabText]}>
+            Handoff
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tab, activeTab === 'courtroom' && styles.activeTab]}
+          onPress={() => setActiveTab('courtroom')}
+        >
+          <Text style={[styles.tabText, activeTab === 'courtroom' && styles.activeTabText]}>
+            Courtroom
           </Text>
         </TouchableOpacity>
       </ScrollView>
