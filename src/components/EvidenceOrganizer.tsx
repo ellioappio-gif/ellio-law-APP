@@ -44,11 +44,11 @@ export const EvidenceOrganizer: React.FC<EvidenceOrganizerProps> = ({
 
   const getTypeIcon = (type: EvidenceItem['type']): string => {
     const icons = {
-      'photo': '📷',
-      'document': '📄',
-      'physical': '📦',
-      'testimonial': '💬',
-      'electronic': '💾',
+      'photo': 'Photo',
+      'document': 'Doc',
+      'physical': 'Item',
+      'testimonial': 'Testimony',
+      'electronic': 'File',
     };
     return icons[type];
   };

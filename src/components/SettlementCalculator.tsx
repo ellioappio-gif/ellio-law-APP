@@ -51,7 +51,7 @@ export const SettlementCalculator: React.FC<SettlementCalculatorProps> = ({
   return (
     <ScrollView style={styles.container}>
       <View style={styles.infoBox}>
-        <Text style={styles.infoTitle}>⚖️ Settlement Calculator</Text>
+        <Text style={styles.infoTitle}>Settlement Calculator</Text>
         <Text style={styles.infoText}>
           This calculator provides an estimate based on common formulas. Actual settlement
           values depend on many factors. Always consult with an attorney for accurate advice.

@@ -66,9 +66,7 @@ export const AttorneyHandoff: React.FC<AttorneyHandoffProps> = ({ caseId, caseNa
               onPress={() => toggleSection(section.id)}
             >
               <View style={styles.sectionHeader}>
-                <View style={[styles.checkbox, isSelected && styles.checkboxSelected]}>
-                  {isSelected && <Text style={styles.checkmark}>✓</Text>}
-                </View>
+                <View style={[styles.checkbox, isSelected && styles.checkboxSelected]} />
                 <View style={styles.sectionInfo}>
                   <Text style={styles.sectionName}>{section.name}</Text>
                   <Text style={styles.sectionDescription}>{section.description}</Text>

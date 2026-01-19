@@ -47,9 +47,7 @@ export const MediationPrep: React.FC<MediationPrepProps> = ({ caseId, onSave }) 
               prev.map(i => i.id === item.id ? { ...i, checked: !i.checked } : i)
             )}
           >
-            <View style={[styles.checkbox, item.checked && styles.checkboxChecked]}>
-              {item.checked && <Text style={styles.checkmark}>✓</Text>}
-            </View>
+            <View style={[styles.checkbox, item.checked && styles.checkboxChecked]} />
             <Text style={[styles.checklistText, item.checked && styles.checklistTextChecked]}>
               {item.item}
             </Text>

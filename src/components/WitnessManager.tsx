@@ -108,7 +108,7 @@ export const WitnessManager: React.FC<WitnessManagerProps> = ({
           <Text style={styles.contactInfo}>Phone: {item.contactInfo.phone}</Text>
         )}
         {item.contactInfo.email && (
-          <Text style={styles.contactInfo}>✉️ {item.contactInfo.email}</Text>
+          <Text style={styles.contactInfo}>Email: {item.contactInfo.email}</Text>
         )}
       </View>
       {item.availability && (

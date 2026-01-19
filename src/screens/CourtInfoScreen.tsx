@@ -38,7 +38,7 @@ export const CourtInfoScreen: React.FC = () => {
 
       {item.efilingAvailable && (
         <View style={styles.badge}>
-          <Text style={styles.badgeText}>✓ E-Filing Available</Text>
+          <Text style={styles.badgeText}>E-Filing Available</Text>
         </View>
       )}
 

@@ -128,9 +128,7 @@ export const DeadlineTracker: React.FC<DeadlineTrackerProps> = ({
           <TouchableOpacity
             style={styles.checkbox}
             onPress={() => onToggleComplete(item.id)}
-          >
-            {item.completed && <Text style={styles.checkmark}>✓</Text>}
-          </TouchableOpacity>
+          />
           <View style={styles.deadlineContent}>
             <Text style={[styles.deadlineTitle, item.completed && styles.completedText]}>
               {item.title}
@@ -163,7 +161,7 @@ export const DeadlineTracker: React.FC<DeadlineTrackerProps> = ({
 
       {overdue.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>⚠️ Overdue ({overdue.length})</Text>
+          <Text style={styles.sectionTitle}>Overdue ({overdue.length})</Text>
           {overdue.map((item) => renderDeadline({ item }))}
         </View>
       )}
@@ -177,7 +175,7 @@ export const DeadlineTracker: React.FC<DeadlineTrackerProps> = ({
 
       {completed.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>✅ Completed ({completed.length})</Text>
+          <Text style={styles.sectionTitle}>Completed ({completed.length})</Text>
           {completed.slice(0, 5).map((item) => renderDeadline({ item }))}
         </View>
       )}

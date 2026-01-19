@@ -221,9 +221,7 @@ export const ExpenseTracker: React.FC<ExpenseTrackerProps> = ({
               style={styles.checkboxRow}
               onPress={() => setReimbursable(!reimbursable)}
             >
-              <View style={styles.checkbox}>
-                {reimbursable && <Text style={styles.checkmark}>✓</Text>}
-              </View>
+              <View style={styles.checkbox} />
               <Text style={styles.checkboxLabel}>Reimbursable expense</Text>
             </TouchableOpacity>
           </View>

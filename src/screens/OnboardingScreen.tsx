@@ -21,9 +21,9 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
   const steps: OnboardingStep[] = [
     {
       id: '1',
-      title: 'Welcome to Ellio Law',
+      title: 'Welcome to ellio Law',
       description: 'Your personal legal assistant for organizing cases, understanding legal processes, and accessing resources across all 50 states.',
-      icon: '🐘',
+      icon: '',
       completed: false,
     },
     {
@@ -83,9 +83,6 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
             >
               {state}
             </Text>
-            {selectedState === state && (
-              <Text style={styles.checkmark}>✓</Text>
-            )}
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -99,7 +96,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>🐘 Ellio Law</Text>
+          <Text style={styles.logoText}>ellio law</Text>
         </View>
       </View>
 

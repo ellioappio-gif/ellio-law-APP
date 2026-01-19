@@ -79,12 +79,9 @@ export const WorkflowsScreen: React.FC = () => {
           </View>
         </View>
 
-        <TouchableOpacity
+        <View
           style={[styles.checkbox, isCompleted && styles.checkedBox]}
-          onPress={() => toggleStep(item.id)}
-        >
-          {isCompleted && <Text style={styles.checkmark}>✓</Text>}
-        </TouchableOpacity>
+        />
       </View>
     );
   };

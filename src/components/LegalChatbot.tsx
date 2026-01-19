@@ -86,16 +86,16 @@ export const LegalChatbot: React.FC<LegalChatbotProps> = ({ route, navigation, c
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <View style={styles.avatarContainer}>
-            <Text style={styles.avatar}>⚖️</Text>
+            <Text style={styles.avatar}>E</Text>
           </View>
           <View>
-            <Text style={styles.headerTitle}>Ellio Legal Assistant</Text>
+            <Text style={styles.headerTitle}>ellio Legal Assistant</Text>
             <Text style={styles.headerSubtitle}>AI-powered guidance</Text>
           </View>
         </View>
         {onClose && (
           <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>✕</Text>
+            <Text style={styles.closeButtonText}>×</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -182,7 +182,7 @@ export const LegalChatbot: React.FC<LegalChatbotProps> = ({ route, navigation, c
 
       <View style={styles.disclaimer}>
         <Text style={styles.disclaimerText}>
-          ⚠️ Ellio provides general information, not legal advice. Consult an attorney for specific guidance.
+          ellio provides general information, not legal advice. Consult an attorney for specific guidance.
         </Text>
       </View>
     </KeyboardAvoidingView>
