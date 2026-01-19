@@ -20,8 +20,21 @@ if ! command -v node &> /dev/null; then
     export PATH="/usr/local/opt/node@20/bin:$PATH"
 fi
 
+# Export Node.js path for xcodebuild phase
+export PATH="/usr/local/opt/node@20/bin:$PATH"
+export NODE_BINARY=$(command -v node)
+
 echo "✅ Node.js version: $(node --version)"
 echo "✅ npm version: $(npm --version)"
+echo "✅ Node binary: $NODE_BINARY"
+
+# Write Node.js path to .xcode.env for xcodebuild to use
+cd "$REPO_ROOT/ios"
+cat > .xcode.env.local << EOF
+export NODE_BINARY=$NODE_BINARY
+export PATH=/usr/local/opt/node@20/bin:\$PATH
+EOF
+echo "✅ Created .xcode.env.local with Node.js path"
 
 # Install npm dependencies
 echo "�� Installing npm dependencies..."
