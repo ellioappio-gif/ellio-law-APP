@@ -1,19 +1,30 @@
 #!/bin/sh
-set -e
 
-# Install Node.js 20 via NVM
-export NVM_DIR="$HOME/.nvm"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-nvm install 20
-nvm use 20
+# Xcode Cloud Build Script
+# This runs after the repository is cloned
+
+echo "🚀 Starting Xcode Cloud build setup..."
+
+# Install Node.js 20 using Homebrew (more reliable for Xcode Cloud)
+if ! command -v node &> /dev/null; then
+    echo "📦 Installing Node.js..."
+    brew install node@20
+    export PATH="/usr/local/opt/node@20/bin:$PATH"
+else
+    echo "✅ Node.js already installed: $(node --version)"
+fi
+
+# Navigate to project root
+cd ..
+echo "📂 Working directory: $(pwd)"
 
 # Install npm dependencies
-cd ..
-npm ci
+echo "📦 Installing npm dependencies..."
+npm ci --legacy-peer-deps
 
 # Install CocoaPods
+echo "📦 Installing CocoaPods dependencies..."
 cd ios
-pod install
+pod install --repo-update
 
-echo "✅ Xcode Cloud build setup complete"
+echo "✅ Xcode Cloud build setup complete!"
