@@ -189,7 +189,7 @@ export const LegalChatbot: React.FC<LegalChatbotProps> = ({ route, navigation, c
   );
 };
 
-// AI Response Generator (placeholder - would connect to real AI in production)
+// Educational Response Generator (keyword-based pattern matching)
 const generateResponse = (question: string, state: string): string => {
   const lowerQuestion = question.toLowerCase();
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   TextInput,
   Modal,
 } from 'react-native';
+import { Audio } from 'expo-av';
 import { VoiceNote } from '../types';
 
 interface VoiceNotesProps {
@@ -24,17 +25,74 @@ export const VoiceNotes: React.FC<VoiceNotesProps> = ({
 }) => {
   const [recording, setRecording] = useState(false);
   const [selectedNote, setSelectedNote] = useState<VoiceNote | null>(null);
+  const [recordingDuration, setRecordingDuration] = useState(0);
+  const recordingRef = useRef<Audio.Recording | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const sortedNotes = [...notes].sort((a, b) => b.date.getTime() - a.date.getTime());
 
   const startRecording = async () => {
-    // Note: Requires expo-av package
-    Alert.alert(
-      'Voice Recording',
-      'Voice recording requires expo-av package. Install with: npx expo install expo-av',
-      [{ text: 'OK' }]
-    );
-    // TODO: Implement actual recording with expo-av
+    try {
+      const permission = await Audio.requestPermissionsAsync();
+      if (!permission.granted) {
+        Alert.alert(
+          'Permission Required',
+          'Please enable microphone permissions in your device settings to record voice notes.'
+        );
+        return;
+      }
+
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RecordingOptionsPresets.HIGH_QUALITY
+      );
+      
+      recordingRef.current = recording;
+      setRecording(true);
+      setRecordingDuration(0);
+
+      intervalRef.current = setInterval(() => {
+        setRecordingDuration(prev => prev + 1);
+      }, 1000);
+    } catch (error) {
+      console.error('Failed to start recording:', error);
+      Alert.alert('Error', 'Failed to start recording. Please try again.');
+    }
+  };
+
+  const stopRecording = async () => {
+    try {
+      if (!recordingRef.current) return;
+
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+
+      await recordingRef.current.stopAndUnloadAsync();
+      await Audio.setAudioModeAsync({ allowsRecordingIOS: false });
+      
+      const uri = recordingRef.current.getURI();
+      const newNote: VoiceNote = {
+        id: `note-${Date.now()}`,
+        date: new Date(),
+        duration: recordingDuration,
+        audioUri: uri || '',
+        summary: `Voice note - ${new Date().toLocaleDateString()}`,
+      };
+
+      onAddNote(newNote);
+      setRecording(false);
+      setRecordingDuration(0);
+      recordingRef.current = null;
+    } catch (error) {
+      console.error('Failed to stop recording:', error);
+      Alert.alert('Error', 'Failed to save recording. Please try again.');
+    }
   };
 
   const formatDuration = (seconds: number) => {
@@ -84,10 +142,12 @@ export const VoiceNotes: React.FC<VoiceNotesProps> = ({
     <View style={styles.container}>
       <TouchableOpacity
         style={[styles.recordButton, recording && styles.recordingButton]}
-        onPress={recording ? () => setRecording(false) : startRecording}
+        onPress={recording ? stopRecording : startRecording}
+        accessibilityLabel={recording ? 'Stop recording' : 'Start voice note'}
+        accessibilityRole="button"
       >
         <Text style={styles.recordButtonText}>
-          {recording ? 'Stop Recording' : 'Start Voice Note'}
+          {recording ? `Recording... ${formatDuration(recordingDuration)}` : 'Start Voice Note'}
         </Text>
       </TouchableOpacity>
 

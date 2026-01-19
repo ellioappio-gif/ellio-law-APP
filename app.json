@@ -18,7 +18,8 @@
       "infoPlist": {
         "NSCameraUsageDescription": "This app needs camera access to capture photos of legal documents and evidence.",
         "NSPhotoLibraryUsageDescription": "This app needs photo library access to select and upload legal documents.",
-        "NSPhotoLibraryAddUsageDescription": "This app needs permission to save documents to your photo library."
+        "NSPhotoLibraryAddUsageDescription": "This app needs permission to save documents to your photo library.",
+        "NSMicrophoneUsageDescription": "This app needs microphone access to record voice notes for your legal case."
       }
     },
     "android": {
@@ -33,7 +34,8 @@
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE",
-        "READ_MEDIA_IMAGES"
+        "READ_MEDIA_IMAGES",
+        "RECORD_AUDIO"
       ]
     },
     "web": {
