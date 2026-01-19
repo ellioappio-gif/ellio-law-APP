@@ -46,7 +46,14 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
   const inputRef = useRef<TextInput>(null);
   const recordingRef = useRef<Audio.Recording | null>(null);
 
-  const conversationFlow = [
+  const conversationFlow: Array<{
+    ellioMessage: string;
+    delay: number;
+    needsInput?: boolean;
+    isStateSelector?: boolean;
+    placeholder?: string;
+    options?: string[];
+  }> = [
     {
       ellioMessage: "Hey there. I'm ellio.",
       delay: 600,
@@ -256,7 +263,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
     // Add user's response
     const userMessage: Message = {
       id: messages.length,
-      text: US_STATES.find(s => s.code === state)?.name || state,
+      text: US_STATES.find((s) => s.code === state)?.name || state,
       isEllio: false,
     };
     
@@ -399,7 +406,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
             {index === messages.length - 1 && message.isStateSelector && (
               <View style={styles.stateListContainer}>
                 <ScrollView style={styles.stateList} nestedScrollEnabled>
-                  {US_STATES.map((state) => (
+                  {US_STATES.map((state: { code: USState; name: string }) => (
                     <TouchableOpacity
                       key={state.code}
                       style={[
