@@ -2,8 +2,10 @@
 
 # Xcode Cloud Build Script
 # This runs after the repository is cloned
+# Script is executed from: /Volumes/workspace/repository/ios/ci_scripts/
 
 echo "🚀 Starting Xcode Cloud build setup..."
+echo "📂 Current directory: $(pwd)"
 
 # Install Node.js 20 using Homebrew (more reliable for Xcode Cloud)
 if ! command -v node &> /dev/null; then
@@ -14,8 +16,8 @@ else
     echo "✅ Node.js already installed: $(node --version)"
 fi
 
-# Navigate to project root
-cd ..
+# Navigate to project root (we're in ios/ci_scripts, need to go up 2 levels)
+cd ../..
 echo "📂 Working directory: $(pwd)"
 
 # Install npm dependencies
