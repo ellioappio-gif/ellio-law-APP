@@ -9,8 +9,10 @@ import {
   KeyboardAvoidingView,
   Platform,
   Animated,
-  Image,
+  Alert,
 } from 'react-native';
+import * as Speech from 'expo-speech';
+import { Audio } from 'expo-av';
 import { USState } from '../types/extended';
 import { ellioLawTokens } from '../theme/ellioLawTokens';
 import { US_STATES } from '../data/stateData';
@@ -36,15 +38,17 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
   const [userInput, setUserInput] = useState('');
   const [caseName, setCaseName] = useState('');
   const [userDescription, setUserDescription] = useState('');
+  const [voiceMode, setVoiceMode] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const inputRef = useRef<TextInput>(null);
-
-  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const recordingRef = useRef<Audio.Recording | null>(null);
 
   const conversationFlow = [
     {
-      ellioMessage: "Hey there 👋 I'm ellio.",
+      ellioMessage: "Hey there. I'm ellio.",
       delay: 600,
     },
     {
@@ -61,7 +65,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
       delay: 800,
     },
     {
-      ellioMessage: "Here's what I can do for you:\n\n• Keep all your documents organized\n• Help you understand legal terms\n• Track important deadlines\n• Find resources near you",
+      ellioMessage: "Here's what I can do for you:\n\nKeep all your documents organized\nHelp you understand legal terms\nTrack important deadlines\nFind resources near you",
       delay: 1400,
     },
     {
@@ -86,6 +90,66 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
     showNextMessage(0);
   }, []);
 
+  const speakMessage = async (text: string) => {
+    if (!voiceMode) return;
+    
+    setIsSpeaking(true);
+    await Speech.speak(text, {
+      language: 'en-US',
+      pitch: 1.0,
+      rate: 0.9,
+      onDone: () => setIsSpeaking(false),
+      onError: () => setIsSpeaking(false),
+    });
+  };
+
+  const startVoiceInput = async () => {
+    try {
+      const permission = await Audio.requestPermissionsAsync();
+      if (!permission.granted) {
+        Alert.alert(
+          'Permission Required',
+          'Please enable microphone permissions to use voice input.'
+        );
+        return;
+      }
+
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RecordingOptionsPresets.HIGH_QUALITY
+      );
+      
+      recordingRef.current = recording;
+      setIsRecording(true);
+    } catch (error) {
+      Alert.alert('Error', 'Failed to start recording. Please try again.');
+    }
+  };
+
+  const stopVoiceInput = async () => {
+    if (!recordingRef.current) return;
+
+    try {
+      setIsRecording(false);
+      await recordingRef.current.stopAndUnloadAsync();
+      
+      // For now, show a message that transcription will be added
+      Alert.alert(
+        'Voice Input',
+        'Voice transcription will be available soon. For now, please type your response.',
+        [{ text: 'OK' }]
+      );
+      
+      recordingRef.current = null;
+    } catch (error) {
+      Alert.alert('Error', 'Failed to process voice input.');
+    }
+  };
+
   const showNextMessage = (step: number) => {
     if (step >= conversationFlow.length) return;
 
@@ -105,6 +169,11 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
       setMessages(prev => [...prev, newMessage]);
       setCurrentStep(step);
       
+      // Speak the message if voice mode is enabled
+      if (voiceMode) {
+        speakMessage(flow.ellioMessage);
+      }
+      
       // Fade in animation
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -117,10 +186,17 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
         scrollViewRef.current?.scrollToEnd({ animated: true });
         
         // Auto-focus input if needed
-        if (flow.needsInput) {
+        if (flow.needsInput && !voiceMode) {
           setTimeout(() => inputRef.current?.focus(), 300);
         }
       }, 100);
+
+      // Auto-advance if no user input needed
+      if (!flow.needsInput && !flow.isStateSelector && !flow.options) {
+        setTimeout(() => {
+          showNextMessage(step + 1);
+        }, 2000);
+      }
     }, flow.delay);
   };
 
@@ -230,12 +306,26 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
     >
       <View style={styles.header}>
         <View style={styles.logoContainer}>
-          <Image 
-            source={require('../../assets/images/ellio-logo.png')}
-            style={styles.logoImage}
-            resizeMode="contain"
-          />
+          <Text style={styles.logoText}>ellio</Text>
           <Text style={styles.subtitle}>legal navigation made simple</Text>
+        </View>
+        
+        <View style={styles.inputModeToggle}>
+          <TouchableOpacity
+            style={[styles.modeButton, !voiceMode && styles.modeButtonActive]}
+            onPress={() => {
+              setVoiceMode(false);
+              Speech.stop();
+            }}
+          >
+            <Text style={[styles.modeButtonText, !voiceMode && styles.modeButtonTextActive]}>Text</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.modeButton, voiceMode && styles.modeButtonActive]}
+            onPress={() => setVoiceMode(true)}
+          >
+            <Text style={[styles.modeButtonText, voiceMode && styles.modeButtonTextActive]}>Voice</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -246,7 +336,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
         showsVerticalScrollIndicator={false}
       >
         {messages.map((message, index) => (
-          <View key={message.id} style={styles.messageWrapper}>
+          <View key={`msg-${index}-${message.id}`} style={styles.messageWrapper}>
             <View style={[
               styles.messageBubble,
               message.isEllio ? styles.ellioBubble : styles.userBubble
@@ -262,28 +352,46 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
             {/* Show text input if this is the last message and needs input */}
             {index === messages.length - 1 && message.needsInput && (
               <View style={styles.inputContainer}>
-                <TextInput
-                  ref={inputRef}
-                  style={styles.textInput}
-                  value={userInput}
-                  onChangeText={setUserInput}
-                  placeholder={message.placeholder || "Type your answer..."}
-                  placeholderTextColor={ellioLawTokens.color.text.tertiary}
-                  multiline
-                  onSubmitEditing={handleTextInput}
-                  returnKeyType="send"
-                  blurOnSubmit={false}
-                />
-                <TouchableOpacity
-                  style={[
-                    styles.sendButton,
-                    !userInput.trim() && styles.sendButtonDisabled
-                  ]}
-                  onPress={handleTextInput}
-                  disabled={!userInput.trim()}
-                >
-                  <Text style={styles.sendButtonText}>Send</Text>
-                </TouchableOpacity>
+                {!voiceMode ? (
+                  <>
+                    <TextInput
+                      ref={inputRef}
+                      style={styles.textInput}
+                      value={userInput}
+                      onChangeText={setUserInput}
+                      placeholder={message.placeholder || "Type your answer..."}
+                      placeholderTextColor={ellioLawTokens.color.text.tertiary}
+                      multiline
+                      onSubmitEditing={handleTextInput}
+                      returnKeyType="send"
+                      blurOnSubmit={false}
+                    />
+                    <TouchableOpacity
+                      style={[
+                        styles.sendButton,
+                        !userInput.trim() && styles.sendButtonDisabled
+                      ]}
+                      onPress={handleTextInput}
+                      disabled={!userInput.trim()}
+                    >
+                      <Text style={styles.sendButtonText}>Send</Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <View style={styles.voiceInputContainer}>
+                    <TouchableOpacity
+                      style={[styles.micButton, isRecording && styles.micButtonActive]}
+                      onPress={isRecording ? stopVoiceInput : startVoiceInput}
+                    >
+                      <Text style={styles.micButtonText}>
+                        {isRecording ? '⏹ Stop' : '🎤 Tap to speak'}
+                      </Text>
+                    </TouchableOpacity>
+                    {isSpeaking && (
+                      <Text style={styles.speakingIndicator}>Speaking...</Text>
+                    )}
+                  </View>
+                )}
               </View>
             )}
 
@@ -317,210 +425,6 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
     </KeyboardAvoidingView>
   );
 };
-    {
-      id: '1',
-      title: 'Welcome to ellio Law',
-      description: 'Your personal legal assistant for organizing cases, understanding legal processes, and accessing resources across all 50 states.',
-      icon: '',
-      completed: false,
-    },
-    {
-      id: '2',
-      title: 'Organize Your Case',
-      description: 'Capture documents, build timelines, track expenses, manage witnesses, and never miss a deadline.',
-      icon: 'ORG',
-      completed: false,
-    },
-    {
-      id: '3',
-      title: 'Get Legal Guidance',
-      description: 'Chat with Ellio AI for instant help. Access legal aid, court information, templates, and step-by-step workflows.',
-      icon: 'AI',
-      completed: false,
-    },
-    {
-      id: '4',
-      title: 'Select Your State',
-      description: 'Choose your state to access state-specific legal resources, courts, and legal aid organizations.',
-      icon: 'LOC',
-      completed: false,
-    },
-  ];
-
-  const handleNext = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
-    } else if (selectedState) {
-      onComplete(selectedState);
-    }
-  };
-
-  const handleSkip = () => {
-    setCurrentStep(steps.length - 1);
-  };
-
-  const renderStateSelection = () => {
-    const states = Object.values(USState).sort();
-    
-    return (
-      <ScrollView style={styles.stateList}>
-        {states.map((state) => (
-          <TouchableOpacity
-            key={state}
-            style={[
-              styles.stateButton,
-              selectedState === state && styles.stateButtonSelected,
-            ]}
-            onPress={() => setSelectedState(state)}
-          >
-            <Text
-              style={[
-                styles.stateButtonText,
-                selectedState === state && styles.stateButtonTextSelected,
-              ]}
-            >
-              {state}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    );
-  };
-
-  const currentStepData = steps[currentStep];
-  const isLastStep = currentStep === steps.length - 1;
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>ellio law</Text>
-        </View>
-      </View>
-
-      <View style={styles.progressContainer}>
-        {steps.map((_, index) => (
-          <View
-            key={index}
-            style={[
-              styles.progressDot,
-              index <= currentStep && styles.progressDotActive,
-            ]}
-          />
-        ))}
-      </View>
-
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
-        <View style={styles.iconContainer}>
-          <Text style={styles.stepIcon}>{currentStepData.icon}</Text>
-        </View>
-
-        <Text style={styles.stepTitle}>{currentStepData.title}</Text>
-        <Text style={styles.stepDescription}>{currentStepData.description}</Text>
-
-        {isLastStep && renderStateSelection()}
-
-        {!isLastStep && (
-          <View style={styles.featuresContainer}>
-            {currentStep === 0 && (
-              <>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>APP</Text></View>
-                  <Text style={styles.featureText}>Works on iPhone and Android</Text>
-                </View>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>SEC</Text></View>
-                  <Text style={styles.featureText}>Your data stays private on your device</Text>
-                </View>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>FREE</Text></View>
-                  <Text style={styles.featureText}>100% free - no hidden costs</Text>
-                </View>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>USA</Text></View>
-                  <Text style={styles.featureText}>All 50 states + federal law</Text>
-                </View>
-              </>
-            )}
-
-            {currentStep === 1 && (
-              <>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>TIME</Text></View>
-                  <Text style={styles.featureText}>Build visual case timelines</Text>
-                </View>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>$$$</Text></View>
-                  <Text style={styles.featureText}>Track expenses and receipts</Text>
-                </View>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>DATE</Text></View>
-                  <Text style={styles.featureText}>Never miss court deadlines</Text>
-                </View>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>PPL</Text></View>
-                  <Text style={styles.featureText}>Manage witness information</Text>
-                </View>
-              </>
-            )}
-
-            {currentStep === 2 && (
-              <>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>AI</Text></View>
-                  <Text style={styles.featureText}>AI chatbot for instant legal guidance</Text>
-                </View>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>HELP</Text></View>
-                  <Text style={styles.featureText}>Find free legal aid in your area</Text>
-                </View>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>DOC</Text></View>
-                  <Text style={styles.featureText}>Fill-in-the-blank legal templates</Text>
-                </View>
-                <View style={styles.feature}>
-                  <View style={styles.featureIconBox}><Text style={styles.featureIcon}>DEF</Text></View>
-                  <Text style={styles.featureText}>Legal dictionary in plain English</Text>
-                </View>
-              </>
-            )}
-          </View>
-        )}
-      </ScrollView>
-
-      <View style={styles.footer}>
-        {currentStep > 0 && (
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => setCurrentStep(currentStep - 1)}
-          >
-            <Text style={styles.backButtonText}>Back</Text>
-          </TouchableOpacity>
-        )}
-
-        {!isLastStep && (
-          <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-            <Text style={styles.skipButtonText}>Skip</Text>
-          </TouchableOpacity>
-        )}
-
-        <TouchableOpacity
-          style={[
-            styles.nextButton,
-            isLastStep && !selectedState && styles.nextButtonDisabled,
-          ]}
-          onPress={handleNext}
-          disabled={isLastStep && !selectedState}
-        >
-          <Text style={styles.nextButtonText}>
-            {isLastStep ? 'Get Started' : 'Next'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
-
 
 const styles = StyleSheet.create({
   container: {
@@ -553,6 +457,32 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: ellioLawTokens.color.text.secondary,
     fontStyle: 'italic',
+  },
+  inputModeToggle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: ellioLawTokens.spacing.md,
+    gap: ellioLawTokens.spacing.sm,
+  },
+  modeButton: {
+    paddingHorizontal: ellioLawTokens.spacing.lg,
+    paddingVertical: ellioLawTokens.spacing.sm,
+    borderRadius: ellioLawTokens.radius.md,
+    backgroundColor: ellioLawTokens.color.background.primary,
+    borderWidth: 2,
+    borderColor: ellioLawTokens.color.border,
+  },
+  modeButtonActive: {
+    backgroundColor: ellioLawTokens.color.brand,
+    borderColor: ellioLawTokens.color.brand,
+  },
+  modeButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: ellioLawTokens.color.text.secondary,
+  },
+  modeButtonTextActive: {
+    color: '#fff',
   },
   chatContainer: {
     flex: 1,
@@ -668,4 +598,32 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
   },
+  voiceInputContainer: {
+    alignItems: 'center',
+    paddingVertical: ellioLawTokens.spacing.md,
+  },
+  micButton: {
+    backgroundColor: ellioLawTokens.color.brand,
+    paddingHorizontal: ellioLawTokens.spacing.xl,
+    paddingVertical: ellioLawTokens.spacing.lg,
+    borderRadius: ellioLawTokens.radius.lg,
+    minWidth: 200,
+    alignItems: 'center',
+  },
+  micButtonActive: {
+    backgroundColor: '#e74c3c',
+  },
+  micButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  speakingIndicator: {
+    marginTop: ellioLawTokens.spacing.sm,
+    fontSize: 14,
+    color: ellioLawTokens.color.brand,
+    fontStyle: 'italic',
+  },
 });
+
+export default OnboardingScreen;
