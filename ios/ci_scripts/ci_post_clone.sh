@@ -28,13 +28,13 @@ echo "✅ Node.js version: $(node --version)"
 echo "✅ npm version: $(npm --version)"
 echo "✅ Node binary: $NODE_BINARY"
 
-# Write Node.js path to .xcode.env for xcodebuild to use
+# Write Node.js path to .xcode.env for xcodebuild to use (overwrite any existing file)
 cd "$REPO_ROOT/ios"
-cat > .xcode.env.local << EOF
+cat > .xcode.env << EOF
 export NODE_BINARY=$NODE_BINARY
 export PATH=/usr/local/opt/node@20/bin:\$PATH
 EOF
-echo "✅ Created .xcode.env.local with Node.js path"
+echo "✅ Created .xcode.env with Node.js path: $NODE_BINARY"
 
 # Install npm dependencies
 echo "�� Installing npm dependencies..."
