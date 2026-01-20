@@ -367,11 +367,11 @@ export const CaseDetailsScreen: React.FC<CaseDetailsScreenProps> = ({ route, nav
       case 'journal':
         return <CaseJournal caseId={caseId} />;
       case 'dashboard':
-        return <CaseStatusDashboard caseId={caseId} />;
+        return <CaseStatusDashboard caseId={caseId} caseName={caseInfo?.name || 'Case'} />;
       case 'handoff':
-        return <AttorneyHandoff caseId={caseId} />;
+        return <AttorneyHandoff caseId={caseId} caseName={caseInfo?.name || 'Case'} />;
       case 'courtroom':
-        return <CourtroomAccess />;
+        return <CourtroomAccess courtName={caseInfo?.name || 'Court'} courtAddress={caseInfo?.caseNumber || 'Case'} />;
       case 'documents':
       default:
         return (

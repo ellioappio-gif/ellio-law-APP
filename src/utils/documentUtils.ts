@@ -32,7 +32,8 @@ export const convertImageToPDF = async (imageUri: string, documentName: string):
   const { uri } = await Print.printToFileAsync({ html });
   
   const pdfName = `${documentName}_${Date.now()}.pdf`;
-  const pdfUri = `${FileSystem.documentDirectory}${pdfName}`;
+  const docDir = (FileSystem as any).documentDirectory || '';
+  const pdfUri = `${docDir}${pdfName}`;
   
   await FileSystem.moveAsync({
     from: uri,

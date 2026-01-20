@@ -15,31 +15,20 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.elliolaw.app",
+      "buildProperties": {
+        "ios": {
+          "compilerFlags": ["-Wno-nullability-completeness", "-Wno-deprecated-declarations"],
+          "buildSettings": {
+            "ENABLE_USER_SCRIPT_SANDBOXING": "NO"
+          }
+        }
+      },
       "infoPlist": {
         "NSCameraUsageDescription": "This app needs camera access to capture photos of legal documents and evidence.",
         "NSPhotoLibraryUsageDescription": "This app needs photo library access to select and upload legal documents.",
         "NSPhotoLibraryAddUsageDescription": "This app needs permission to save documents to your photo library.",
         "NSMicrophoneUsageDescription": "This app needs microphone access to record voice notes for your legal case."
       }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#007AFF"
-      },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "package": "com.elliolaw.app",
-      "permissions": [
-        "CAMERA",
-        "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE",
-        "READ_MEDIA_IMAGES",
-        "RECORD_AUDIO"
-      ]
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     },
     "plugins": [
       [

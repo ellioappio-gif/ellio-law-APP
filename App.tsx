@@ -15,6 +15,39 @@ import { LegalResearchScreen } from './src/screens/LegalResearchScreen';
 import { ProBonoScreen } from './src/screens/ProBonoScreen';
 import { AppealGuideScreen } from './src/screens/AppealGuideScreen';
 import { LegalChatbot } from './src/components/LegalChatbot';
+import { TimelineBuilderScreen } from './src/screens/TimelineBuilderScreen';
+import { DeadlineTrackerScreen } from './src/screens/DeadlineTrackerScreen';
+import { ExpenseTrackerScreen } from './src/screens/ExpenseTrackerScreen';
+import { VoiceNotesScreen } from './src/screens/VoiceNotesScreen';
+import { WitnessManagerScreen } from './src/screens/WitnessManagerScreen';
+import { SettlementCalculatorScreen } from './src/screens/SettlementCalculatorScreen';
+import { EvidenceOrganizerScreen } from './src/screens/EvidenceOrganizerScreen';
+import { ServiceTrackerScreen } from './src/screens/ServiceTrackerScreen';
+import { DiscoveryManagerScreen } from './src/screens/DiscoveryManagerScreen';
+import { HearingOutcomesScreen } from './src/screens/HearingOutcomesScreen';
+import { MediationPrepScreen } from './src/screens/MediationPrepScreen';
+import { CourtAppearancePrepScreen } from './src/screens/CourtAppearancePrepScreen';
+import { CaseJournalScreen } from './src/screens/CaseJournalScreen';
+import { CaseStatusDashboardScreen } from './src/screens/CaseStatusDashboardScreen';
+import { AttorneyHandoffScreen } from './src/screens/AttorneyHandoffScreen';
+import { CourtroomAccessScreen } from './src/screens/CourtroomAccessScreen';
+import { LegalGlossaryScreen } from './src/screens/LegalGlossaryScreen';
+import { FilingChecklistScreen } from './src/screens/FilingChecklistScreen';
+import { DamageCalculatorScreen } from './src/screens/DamageCalculatorScreen';
+import { ContactManagerScreen } from './src/screens/ContactManagerScreen';
+import { CaseTimelineViewerScreen } from './src/screens/CaseTimelineViewerScreen';
+import { NotificationCenterScreen } from './src/screens/NotificationCenterScreen';
+import { DocumentTemplatesScreen } from './src/screens/DocumentTemplatesScreen';
+import { SettlementTrackerScreen } from './src/screens/SettlementTrackerScreen';
+import { AppealPlanningScreen } from './src/screens/AppealPlanningScreen';
+import { LegalResearchToolScreen } from './src/screens/LegalResearchToolScreen';
+import { CaseAnalysisDashboardScreen } from './src/screens/CaseAnalysisDashboardScreen';
+import { MeetingNotesScreen } from './src/screens/MeetingNotesScreen';
+import { CaseInsuranceTrackerScreen } from './src/screens/CaseInsuranceTrackerScreen';
+import { EthicalRulesGuideScreen } from './src/screens/EthicalRulesGuideScreen';
+import { DispositionTrackingScreen } from './src/screens/DispositionTrackingScreen';
+import { DefenseStrategyScreen } from './src/screens/DefenseStrategyScreen';
+import { StatuteOfLimitationsTrackerScreen } from './src/screens/StatuteOfLimitationsTrackerScreen';
 import { USState } from './src/types/extended';
 
 const Stack = createStackNavigator();
@@ -94,6 +127,39 @@ export default function App() {
           component={LegalChatbot}
           initialParams={{ userState }}
         />
+        <Stack.Screen name="Timeline" component={TimelineBuilderScreen} />
+        <Stack.Screen name="Deadlines" component={DeadlineTrackerScreen} />
+        <Stack.Screen name="Expenses" component={ExpenseTrackerScreen} />
+        <Stack.Screen name="VoiceNotes" component={VoiceNotesScreen} />
+        <Stack.Screen name="Witnesses" component={WitnessManagerScreen} />
+        <Stack.Screen name="SettlementCalc" component={SettlementCalculatorScreen} />
+        <Stack.Screen name="Evidence" component={EvidenceOrganizerScreen} />
+        <Stack.Screen name="Service" component={ServiceTrackerScreen} />
+        <Stack.Screen name="Discovery" component={DiscoveryManagerScreen} />
+        <Stack.Screen name="HearingOutcomes" component={HearingOutcomesScreen} />
+        <Stack.Screen name="MediationPrep" component={MediationPrepScreen} />
+        <Stack.Screen name="CourtPrep" component={CourtAppearancePrepScreen} />
+        <Stack.Screen name="Journal" component={CaseJournalScreen} />
+        <Stack.Screen name="CaseStatus" component={CaseStatusDashboardScreen} />
+        <Stack.Screen name="Handoff" component={AttorneyHandoffScreen} />
+        <Stack.Screen name="Courtroom" component={CourtroomAccessScreen} />
+        <Stack.Screen name="LegalGlossary" component={LegalGlossaryScreen} />
+        <Stack.Screen name="FilingChecklist" component={FilingChecklistScreen} />
+        <Stack.Screen name="DamageCalc" component={DamageCalculatorScreen} />
+        <Stack.Screen name="Contacts" component={ContactManagerScreen} />
+        <Stack.Screen name="Timeline2" component={CaseTimelineViewerScreen} />
+        <Stack.Screen name="Notifications" component={NotificationCenterScreen} />
+        <Stack.Screen name="Templates2" component={DocumentTemplatesScreen} />
+        <Stack.Screen name="Settlement" component={SettlementTrackerScreen} />
+        <Stack.Screen name="Appeal" component={AppealPlanningScreen} />
+        <Stack.Screen name="LegalResearch2" component={LegalResearchToolScreen} />
+        <Stack.Screen name="CaseAnalysis" component={CaseAnalysisDashboardScreen} />
+        <Stack.Screen name="MeetingNotes" component={MeetingNotesScreen} />
+        <Stack.Screen name="Insurance" component={CaseInsuranceTrackerScreen} />
+        <Stack.Screen name="EthicalRules" component={EthicalRulesGuideScreen} />
+        <Stack.Screen name="Disposition" component={DispositionTrackingScreen} />
+        <Stack.Screen name="Defense" component={DefenseStrategyScreen} />
+        <Stack.Screen name="StatuteOfLimitations" component={StatuteOfLimitationsTrackerScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

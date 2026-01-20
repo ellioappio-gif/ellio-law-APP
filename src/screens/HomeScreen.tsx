@@ -12,6 +12,40 @@ import {
 import { CaseInfo } from '../types';
 import { getCases, saveCase, deleteCase } from '../utils/storageUtils';
 import { ellioLawTokens } from '../theme/ellioLawTokens';
+import { PulsatingElephant } from '../components/PulsatingElephant';
+import {
+  GlossaryIcon,
+  CourtroomIcon,
+  TemplateIcon,
+  JournalIcon,
+  ResearchIcon,
+  AppealIcon,
+  TimelineIcon,
+  DeadlineIcon,
+  ExpenseIcon,
+  VoiceNoteIcon,
+  WitnessIcon,
+  SettlementIcon,
+  EvidenceIcon,
+  ServiceIcon,
+  DiscoveryIcon,
+  HearingIcon,
+  MediationIcon,
+  CourtPrepIcon,
+  CaseStatusIcon,
+  HandoffIcon,
+  FilingIcon,
+  DamageIcon,
+  ContactIcon,
+  NotificationIcon,
+  MeetingIcon,
+  InsuranceIcon,
+  EthicsIcon,
+  DispositionIcon,
+  DefenseIcon,
+  StatuteIcon,
+  AnalysisIcon,
+} from '../components/EllioIcons';
 
 interface HomeScreenProps {
   navigation: any;
@@ -123,94 +157,181 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       <View style={styles.resourcesSection}>
         <Text style={styles.resourcesTitle}>Legal Resources</Text>
         <View style={styles.resourceButtons}>
-          <TouchableOpacity
-            style={styles.resourceButton}
-            onPress={() => navigation.navigate('LegalAid')}
-          >
-            <View style={styles.resourceIconBox}>
-              <Text style={styles.resourceIcon}>AID</Text>
-            </View>
+          <TouchableOpacity style={styles.resourceButton} onPress={() => navigation.navigate('LegalAid')}>
             <Text style={styles.resourceButtonText}>Legal Aid</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.resourceButton}
-            onPress={() => navigation.navigate('Glossary')}
-          >
-            <View style={styles.resourceIconBox}>
-              <Text style={styles.resourceIcon}>DEF</Text>
-            </View>
+          <TouchableOpacity style={styles.resourceButton} onPress={() => navigation.navigate('Glossary')}>
+            <GlossaryIcon size={16} color={ellioLawTokens.color.brand} />
             <Text style={styles.resourceButtonText}>Glossary</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.resourceButton}
-            onPress={() => navigation.navigate('CourtInfo')}
-          >
-            <View style={styles.resourceIconBox}>
-              <Text style={styles.resourceIcon}>CRT</Text>
-            </View>
+          <TouchableOpacity style={styles.resourceButton} onPress={() => navigation.navigate('CourtInfo')}>
+            <CourtroomIcon size={16} color={ellioLawTokens.color.brand} />
             <Text style={styles.resourceButtonText}>Courts</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.resourceButton}
-            onPress={() => navigation.navigate('Templates')}
-          >
-            <View style={styles.resourceIconBox}>
-              <Text style={styles.resourceIcon}>DOC</Text>
-            </View>
+          <TouchableOpacity style={styles.resourceButton} onPress={() => navigation.navigate('Templates')}>
+            <TemplateIcon size={16} color={ellioLawTokens.color.brand} />
             <Text style={styles.resourceButtonText}>Templates</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.resourceButton}
-            onPress={() => navigation.navigate('Workflows')}
-          >
-            <View style={styles.resourceIconBox}>
-              <Text style={styles.resourceIcon}>WRK</Text>
-            </View>
+          <TouchableOpacity style={styles.resourceButton} onPress={() => navigation.navigate('Workflows')}>
+            <JournalIcon size={16} color={ellioLawTokens.color.brand} />
             <Text style={styles.resourceButtonText}>Workflows</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.resourceButton}
-            onPress={() => navigation.navigate('CourtForms')}
-          >
-            <View style={styles.resourceIconBox}>
-              <Text style={styles.resourceIcon}>FRM</Text>
-            </View>
+          <TouchableOpacity style={styles.resourceButton} onPress={() => navigation.navigate('CourtForms')}>
+            <FilingIcon size={16} color={ellioLawTokens.color.brand} />
             <Text style={styles.resourceButtonText}>Forms</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.resourceButton}
-            onPress={() => navigation.navigate('LegalResearch')}
-          >
-            <View style={styles.resourceIconBox}>
-              <Text style={styles.resourceIcon}>RSC</Text>
-            </View>
+          <TouchableOpacity style={styles.resourceButton} onPress={() => navigation.navigate('LegalResearch')}>
+            <ResearchIcon size={16} color={ellioLawTokens.color.brand} />
             <Text style={styles.resourceButtonText}>Research</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.resourceButton}
-            onPress={() => navigation.navigate('ProBono')}
-          >
-            <View style={styles.resourceIconBox}>
-              <Text style={styles.resourceIcon}>PRO</Text>
-            </View>
+          <TouchableOpacity style={styles.resourceButton} onPress={() => navigation.navigate('ProBono')}>
+            <ContactIcon size={16} color={ellioLawTokens.color.brand} />
             <Text style={styles.resourceButtonText}>Pro Bono</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.resourceButton}
-            onPress={() => navigation.navigate('AppealGuide')}
-          >
-            <View style={styles.resourceIconBox}>
-              <Text style={styles.resourceIcon}>APL</Text>
-            </View>
+          <TouchableOpacity style={styles.resourceButton} onPress={() => navigation.navigate('AppealGuide')}>
+            <AppealIcon size={16} color={ellioLawTokens.color.brand} />
             <Text style={styles.resourceButtonText}>Appeals</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={styles.toolsSection}>
+        <Text style={styles.toolsTitle}>Case Management Tools</Text>
+        <View style={styles.toolButtons}>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Timeline')}>
+            <TimelineIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Timeline</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Deadlines')}>
+            <DeadlineIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Deadlines</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Expenses')}>
+            <ExpenseIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Expenses</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('VoiceNotes')}>
+            <VoiceNoteIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Voice Notes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Witnesses')}>
+            <WitnessIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Witnesses</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('SettlementCalc')}>
+            <SettlementIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Settlement</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Evidence')}>
+            <EvidenceIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Evidence</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Service')}>
+            <ServiceIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Service</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Discovery')}>
+            <DiscoveryIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Discovery</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('HearingOutcomes')}>
+            <HearingIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Hearing</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('MediationPrep')}>
+            <MediationIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Mediation</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('CourtPrep')}>
+            <CourtPrepIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Court Prep</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Journal')}>
+            <JournalIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Journal</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('CaseStatus')}>
+            <CaseStatusIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Status</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Handoff')}>
+            <HandoffIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Handoff</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Courtroom')}>
+            <CourtroomIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Courtroom</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('LegalGlossary')}>
+            <GlossaryIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Glossary</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('FilingChecklist')}>
+            <FilingIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Filing</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('DamageCalc')}>
+            <DamageIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Damages</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Contacts')}>
+            <ContactIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Contacts</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Timeline2')}>
+            <TimelineIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Viewer</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Notifications')}>
+            <NotificationIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Alerts</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Templates2')}>
+            <TemplateIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Templates</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Settlement')}>
+            <SettlementIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Settlements</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Appeal')}>
+            <AppealIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Appeals</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('LegalResearch2')}>
+            <ResearchIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Research</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('CaseAnalysis')}>
+            <AnalysisIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Analysis</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('MeetingNotes')}>
+            <MeetingIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Meetings</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Insurance')}>
+            <InsuranceIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Insurance</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('EthicalRules')}>
+            <EthicsIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Ethics</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Disposition')}>
+            <DispositionIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Disposition</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Defense')}>
+            <DefenseIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Defense</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('StatuteOfLimitations')}>
+            <StatuteIcon size={16} color={ellioLawTokens.color.brand} />
+            <Text style={styles.toolButtonText}>Statute</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.toolButton} onPress={() => navigation.navigate('Chatbot')}>
+            <Text style={styles.toolButtonText}>Ask a Question</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -280,12 +401,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         </View>
       </Modal>
 
-      {/* Floating Chatbot Button */}
+      {/* Floating Chatbot Button - Pulsating Ellio Elephant */}
       <TouchableOpacity
         style={styles.chatbotButton}
         onPress={() => navigation.navigate('Chatbot')}
       >
-        <Text style={styles.chatbotIcon}>AI</Text>
+        <PulsatingElephant size={56} />
       </TouchableOpacity>
     </View>
   );
@@ -480,45 +601,61 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-  },
-  resourceIconBox: {
-    width: 32,
-    height: 32,
-    borderRadius: ellioLawTokens.radius.sm,
-    backgroundColor: ellioLawTokens.color.brand + '20',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  resourceIcon: {
-    fontSize: 10,
-    fontWeight: 'bold',
-    color: ellioLawTokens.color.brand,
+    gap: 8,
   },
   resourceButtonText: {
     color: ellioLawTokens.color.brand,
     fontSize: 14,
     fontWeight: '500',
   },
+  toolsSection: {
+    backgroundColor: '#fff',
+    marginHorizontal: 16,
+    marginBottom: 16,
+    borderRadius: 12,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  toolsTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 12,
+  },
+  toolButtons: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  toolButton: {
+    backgroundColor: '#f5f5f5',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    flex: 1,
+    minWidth: '45%',
+  },
+  toolButtonText: {
+    color: ellioLawTokens.color.brand,
+    fontSize: 14,
+    fontWeight: '500',
+    flex: 1,
+  },
   chatbotButton: {
     position: 'absolute',
     bottom: 24,
     right: 24,
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: ellioLawTokens.color.brand,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  chatbotIcon: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#fff',
   },
 });
