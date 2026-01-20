@@ -5,6 +5,102 @@
       "idiom": "universal",
       "platform": "ios",
       "size": "1024x1024"
+    },
+    {
+      "filename": "App-Icon-512x512@2x.png",
+      "idiom": "universal",
+      "platform": "ios",
+      "size": "512x512"
+    },
+    {
+      "filename": "App-Icon-512x512@1x.png",
+      "idiom": "universal",
+      "platform": "ios",
+      "size": "512x512"
+    },
+    {
+      "filename": "App-Icon-256x256@2x.png",
+      "idiom": "universal",
+      "platform": "ios",
+      "size": "256x256"
+    },
+    {
+      "filename": "App-Icon-256x256@1x.png",
+      "idiom": "universal",
+      "platform": "ios",
+      "size": "256x256"
+    },
+    {
+      "filename": "App-Icon-180x180@3x.png",
+      "idiom": "iphone",
+      "scale": "3x",
+      "size": "60x60"
+    },
+    {
+      "filename": "App-Icon-120x120@3x.png",
+      "idiom": "iphone",
+      "scale": "3x",
+      "size": "40x40"
+    },
+    {
+      "filename": "App-Icon-120x120@2x.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "60x60"
+    },
+    {
+      "filename": "App-Icon-80x80@2x.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "40x40"
+    },
+    {
+      "filename": "App-Icon-87x87@3x.png",
+      "idiom": "iphone",
+      "scale": "3x",
+      "size": "29x29"
+    },
+    {
+      "filename": "App-Icon-180x180@3x.png",
+      "idiom": "ipad",
+      "scale": "2x",
+      "size": "152x152"
+    },
+    {
+      "filename": "App-Icon-152x152@2x.png",
+      "idiom": "ipad",
+      "scale": "2x",
+      "size": "152x152"
+    },
+    {
+      "filename": "App-Icon-167x167@2x.png",
+      "idiom": "ipad",
+      "scale": "2x",
+      "size": "167x167"
+    },
+    {
+      "filename": "App-Icon-76x76@2x.png",
+      "idiom": "ipad",
+      "scale": "2x",
+      "size": "76x76"
+    },
+    {
+      "filename": "App-Icon-76x76@1x.png",
+      "idiom": "ipad",
+      "scale": "1x",
+      "size": "76x76"
+    },
+    {
+      "filename": "App-Icon-60x60@3x.png",
+      "idiom": "iphone",
+      "scale": "3x",
+      "size": "60x60"
+    },
+    {
+      "filename": "App-Icon-60x60@2x.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "60x60"
     }
   ],
   "info": {
