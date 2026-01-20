@@ -2,4 +2,29 @@
   "compilerOptions": {
     "target": "ES2020",
     "lib": ["ES2020"],
-    "jsx": "r
+    "jsx": "react-native",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@screens/*": ["src/screens/*"],
+      "@components/*": ["src/components/*"],
+      "@theme/*": ["src/theme/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "ios", "android", "dist", "build"]
+}
