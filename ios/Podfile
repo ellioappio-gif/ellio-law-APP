@@ -59,5 +59,12 @@ target 'EllioLaw' do
       :mac_catalyst_enabled => false,
       :ccache_enabled => ccache_enabled?(podfile_properties),
     )
+    
+    # Fix for sandbox permission issues on Apple Silicon Macs
+    # Patches CocoaPods resource scripts to avoid realpath issues
+    resources_sh_glob = File.join(Pod::Config.instance.installation_root, 'Target Support Files/**/*-resources.sh')
+    Dir.glob(resources_sh_glob).each do |resources_sh|
+      system("sed -i '' 's/realpath -mq \"${0}\"/echo \"${0}\"/g' #{resources_sh.shellescape}")
+    end
   end
 end
