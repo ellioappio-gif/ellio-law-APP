@@ -8,7 +8,8 @@
     "device": "expo run:ios --device",
     "web": "expo start --web",
     "android": "expo run:android",
-    "setup-device": "bash setup-device-deployment.sh"
+    "setup-device": "bash setup-device-deployment.sh",
+    "postinstall": "node scripts/postinstall.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.2.0",
