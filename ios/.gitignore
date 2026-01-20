@@ -1,30 +1,25 @@
-# OSX
-#
-.DS_Store
-
 # Xcode
-#
 build/
+DerivedData/
+*.xcworkspace/xcuserdata/
 *.pbxuser
-!default.pbxuser
 *.mode1v3
-!default.mode1v3
 *.mode2v3
-!default.mode2v3
 *.perspectivev3
-!default.perspectivev3
-xcuserdata
-*.xccheckout
-*.moved-aside
-DerivedData
-*.hmap
-*.ipa
-*.xcuserstate
-project.xcworkspace
-.xcode.env.local
-
-# Bundle artifacts
-*.jsbundle
+*.xcworkspace
+*.swiftpm
 
 # CocoaPods
-/Pods/
+Pods/
+Podfile.lock
+
+# Environment
+.xcode.env.local
+.xcode*.env*
+
+# Build artifacts
+build 2/
+*.build
+
+# OS
+.DS_Store
