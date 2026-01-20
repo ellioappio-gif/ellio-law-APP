@@ -17,7 +17,10 @@
       "bundleIdentifier": "com.elliolaw.app",
       "buildProperties": {
         "ios": {
-          "compilerFlags": ["-Wno-nullability-completeness", "-Wno-deprecated-declarations"],
+          "compilerFlags": [
+            "-Wno-nullability-completeness",
+            "-Wno-deprecated-declarations"
+          ],
           "buildSettings": {
             "ENABLE_USER_SCRIPT_SANDBOXING": "NO"
           }
@@ -43,6 +46,13 @@
           "photosPermission": "Allow Ellio Law to access your photos to upload legal documents."
         }
       ]
-    ]
+    ],
+    "android": {
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.elliolaw.app"
+    }
   }
 }
